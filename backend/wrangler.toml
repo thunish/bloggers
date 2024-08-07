@@ -1,0 +1,9 @@
+name = "backend"
+compatibility_date = "2024-07-30"
+node_compat = true
+
+
+[vars]
+DATABASE_URL = ""
+SALT_ROUNDS = ""
+JWT_SECRET = ""
