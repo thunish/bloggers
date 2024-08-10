@@ -28,6 +28,7 @@ model Post {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  imageUrl String @default("https://res.cloudinary.com/dgjjphrax/image/upload/v1723220171/dbxyizrlmggzzidspr3d.jpg")
   title String
   content String
   published Boolean @default(false)
