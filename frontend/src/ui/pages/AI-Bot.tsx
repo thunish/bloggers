@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { Bot } from "../components/Bot";
 import { Your } from "../components/Your";
 import axios from "axios";
-import { BACKEND_URL } from "../../../config";
 
 type Conversation = {
   type: string;
