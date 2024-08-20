@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Bot } from "../components/Bot";
 import { Your } from "../components/Your";
 import axios from "axios";
+import { BACKEND_URL } from "../../../config";
 
 type Conversation = {
   type: string;
@@ -17,9 +18,10 @@ const AiBot = () => {
     e.preventDefault();
     try {
       if (inputRef.current) inputRef.current.value = "";
-      const res = await axios.post("http://localhost:3000/chat", {
-        prompt: query,
+      const res = await axios.post(`http://127.0.0.1:8787/api/v1/bot/chat`, {
+        query: query,
       });
+      console.log(res);
       const { response } = res.data;
       setConversations((prev) => [...prev, { type: "your", text: query }]);
       setQuery("");
