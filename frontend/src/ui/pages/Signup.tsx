@@ -1,15 +1,35 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { Quote } from "../components/Quote"
 import {  Link } from "react-router-dom"
 import { SignupBody } from "@thunish/medium-common";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../../config";
+import { useRecoilState } from "recoil";
+import { userName } from "../../atoms/atom";
 
 
 
 
 export const Signup=()=>{
     const navigate=useNavigate();
+    useEffect(()=>{
+        const main=async()=>{
+            if(localStorage.getItem("token")){
+                const token=localStorage.getItem("token");
+                const response = await axios.post(`${BACKEND_URL}/blog/validate`, {}, {
+                    headers: {
+                        Authorization: `Bearer ${token}`  // Send token in the Authorization header
+                    }
+                });
+                if(response.status==200){
+                    navigate("/blogs");
+                }
+            }
+        }
+        main();
+    });
+    const [theUserName, settheUserName]=useRecoilState(userName);
     const [postInputs, setPostInputs]=useState<SignupBody>({
         firstName:"",
         lastName:"",
@@ -17,12 +37,21 @@ export const Signup=()=>{
         password:"",
     });
     const sendReq=async ()=>{
-        const response=await axios.post("https://backend.thunishandbobby.workers.dev/api/v1/user/signup", {
-            ...postInputs
-        });
-        const {body}=response.data;
-        localStorage.setItem("token", body);
-        navigate("/blog/1")
+        try{
+            const response=await axios.post(`${BACKEND_URL}/user/signup`, {
+                ...postInputs
+            });
+            const {body}=response.data;
+            const {firstName}=response.data;
+            const {lastName}=response.data;
+            settheUserName(firstName[0]+lastName[0]);
+            localStorage.setItem("token", body);
+            navigate("/blogs")
+        }
+        catch(err){
+            console.log(err);
+            alert("Error while signing up");
+        }
     }
     return(
         <div className=" grid grid-cols-1 lg:grid-cols-2">
@@ -87,7 +116,7 @@ const InputField=({ title, placeholder, onChange, type }: inputField )=>{
         <div className=" mt-4 w-full    ">
             <div className=" w-full">
                 <label  className="block mb-2 text-sm font-medium text-white ">{title}</label>
-                <input onChange={onChange} type={type || "text"} id="first_name" className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder={placeholder} required />
+                <input onChange={onChange} type={type || "text"}  className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder={placeholder} required />
             </div>
         </div>
     )

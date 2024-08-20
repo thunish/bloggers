@@ -13,6 +13,7 @@ export type SignupBody=zod.infer<typeof signupBody>;
 export const postBody=zod.object({
     title:zod.string(),
     content:zod.string(),
+    imageUrl:zod.string(),
 });
 
 export type PostBody=zod.infer<typeof postBody>;

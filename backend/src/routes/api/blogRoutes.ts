@@ -14,6 +14,23 @@ export const blogRouter=new Hono<{Bindings:BindingsType, Variables: VariablesTyp
 blogRouter.use("*", authenticate);
 
 
+blogRouter.post("/validate", async(c)=>{
+    try{
+        const id=c.get("userId");
+        if(id){
+            return c.json({
+                msg:"Successfull"
+            }, 200);
+        }
+    }
+    catch(err){
+        console.log(err);
+        return c.json({
+            msg:"Error Found",
+            error:err,
+        })
+    }
+})
 
 blogRouter.post("/", async(c)=>{
     try{
@@ -32,6 +49,7 @@ blogRouter.post("/", async(c)=>{
             data:{
                 title:body.title,
                 content:body.content,
+                imageUrl:body.imageUrl,
                 authorId:id,
             }
         });
@@ -89,6 +107,18 @@ blogRouter.get("/:id", async(c)=>{
         const thePost=await prisma.post.findUnique({
             where:{
                 id:id,
+            },
+            select:{
+                title:true,
+                content:true,
+                updatedAt:true,
+                author:{
+                    select:{
+                        firstName:true,
+                    }
+                },
+                createdAt:true,
+                imageUrl:true
             }
         });
         return c.json({
@@ -112,19 +142,20 @@ blogRouter.get("/bulk/", async(c)=>{
             datasourceUrl:c.env.DATABASE_URL
         }).$extends(withAccelerate());
         const posts=await prisma.post.findMany({
-            where:{
-                OR:[{
-                    title:{
-                        contains:filter,
-                        mode:"insensitive",
-                    },
-                },{
-                    content:{
-                        contains:filter,
-                        mode:"insensitive",
-                    },
-                }]
-            },
+            select:{
+                title:true,
+                content:true,
+                updatedAt:true,
+                id:true,
+                imageUrl:true,
+                createdAt:true,
+                author:{
+                    select:{
+                        firstName:true,
+                        lastName:true,
+                    }
+                }
+            }
         });
         return c.json({
             msg:'Found the posts',

@@ -7,10 +7,11 @@
   "dependencies": {
     "@prisma/client": "^5.17.0",
     "@prisma/extension-accelerate": "^1.1.0",
-    "@thunish/medium-common": "^3.0.0",
+    "@thunish/medium-common": "^4.0.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "hono": "^4.5.3",
+    "moment": "^2.30.1",
     "prisma": "^5.17.0"
   },
   "devDependencies": {

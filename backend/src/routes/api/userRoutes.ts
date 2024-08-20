@@ -11,6 +11,7 @@ export const userRouter=new Hono<{Bindings: BindingsType}>();
 
 
 
+
 userRouter.post("/signup", async(c)=>{
     try{
         const body: any=await c.req.json();
@@ -49,6 +50,8 @@ userRouter.post("/signup", async(c)=>{
         const token = await sign({id:res.id, email:res.email}, c.env.JWT_SECRET);
         return c.json({
             msg:'This is good',
+            firstName:res.firstName,
+            lastName:res.lastName,
             body:token,
         });
 
@@ -83,6 +86,8 @@ userRouter.post("/signin", async(c)=>{
         const jwt = await sign({ id: user.id, email:user.email }, c.env.JWT_SECRET);
         return c.json({ 
             msg:"Successfull Signin",
+            firstName:user.firstName,
+            lastName:user.lastName,
             token: jwt
         }, 200);
     }
