@@ -30,6 +30,7 @@ export const Signup=()=>{
         main();
     });
     const [theUserName, settheUserName]=useRecoilState(userName);
+    console.log(theUserName);
     const [postInputs, setPostInputs]=useState<SignupBody>({
         firstName:"",
         lastName:"",

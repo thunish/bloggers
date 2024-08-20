@@ -10,8 +10,7 @@ import { useEffect } from "react";
 export const Blogs=()=>{
     const navigate=useNavigate();
     useEffect(()=>{
-        const token=localStorage.getItem("token");
-        console.log("token");
+        
         if(!localStorage.getItem("token")){
             navigate("/signin")
         }

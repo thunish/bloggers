@@ -5,6 +5,7 @@ import axios from "axios";
 export const ImageLoader=({onLinkChange}: {onLinkChange: (link: string)=>void})=>{
   const [image, setImage] = useState<any>();
   const [url, setUrl] = useState("null");
+  console.log(url);
   const handleImageChange = (e: any) => {
     console.log("reached")
     setImage(e.target.files[0]);

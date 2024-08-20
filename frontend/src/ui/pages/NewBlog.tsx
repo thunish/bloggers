@@ -4,7 +4,7 @@ import logo from "../../../public/logo.png";
 import AiBot from "./AI-Bot";
 import axios from "axios";
 import { BACKEND_URL } from "../../../config";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { ImageLoader } from "../components/ImageLoader";
 
 
@@ -58,6 +58,7 @@ export const NavBar=({title, content, imageUrl}:{
 })=>{
     const navigate=useNavigate();
     const userTag=localStorage.getItem("username")
+    console.log(userTag);
     return (
         <div>
             <div className=" fixed top-0 z-10 flex w-full justify-between md:px-8 shadow-xl mt-0 bg-white mb-4 py-2">
@@ -77,6 +78,7 @@ export const NavBar=({title, content, imageUrl}:{
                                     "Authorization":`Bearer ${localStorage.getItem("token")}`,
                                 }
                             });
+                            console.log(res);
                             navigate("/blogs")
                         }}>Publish</button>
                         

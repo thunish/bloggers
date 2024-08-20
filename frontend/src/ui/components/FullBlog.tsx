@@ -1,4 +1,3 @@
-import { Avatar } from "./Avatar"
 import { TopBar } from "./TopBar"
 
 
